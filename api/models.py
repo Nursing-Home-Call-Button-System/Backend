@@ -1,23 +1,22 @@
-'''
-this file will efine how data is stored, thing like patient information, call requests and etc
-'''
-
 from django.db import models
 
-class Patient(models.Model):
-    name = models.CharField(max_length=255) #255 is max, example: Viya Atambayeva
-    room_number = models.IntegerField() #ex: room 406 
+# Create your models here.
 
-    def __str__(self): #display
+class Patient(models.Model):
+    name = models.CharField(max_length=100)       # Patient's name
+    room_number = models.IntegerField()           # Patient's room number
+
+    def __str__(self):
         return f"{self.name} (Room {self.room_number})"
 
+# Call Request Model
 class CallRequest(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE) 
-    created_at = models.DateTimeField(auto_now_add=True) 
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)  # Link to Patient
+    created_at = models.DateTimeField(auto_now_add=True)            # Timestamp when the call was made
     status = models.CharField(
         max_length=20,
-        choices=[('Pending', 'Pending'), ('Completed', 'Completed')],
-        default='Pending'
+        choices=[('Pending', 'Pending'), ('Completed', 'Completed')],  # Status options
+        default='Pending'                                             # Default status
     )
 
     def __str__(self):
